@@ -1,0 +1,13 @@
+{
+  "name": "iajedrez-proceso",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "prepare:media": "python scripts/prepare_media.py"
+  },
+  "devDependencies": { "vite": "^7.2.2" }
+}
