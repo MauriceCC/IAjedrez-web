@@ -93,8 +93,11 @@ const observer=new IntersectionObserver(entries=>{
 },{rootMargin:'-15% 0px -65% 0px',threshold:0});
 ['proceso','investigacion','prototipo','evaluacion','documentacion'].forEach(id=>observer.observe(document.getElementById(id)));
 
-document.querySelector('#hellen-video').addEventListener('error',()=>document.querySelector('#video-error').hidden=false);
-document.querySelector('#hellen-video source').addEventListener('error',()=>document.querySelector('#video-error').hidden=false);
+document.querySelectorAll('.evaluation video').forEach(video=>{
+  const showError=()=>video.closest('.evaluation').querySelector('.media-error').hidden=false;
+  video.addEventListener('error',showError);
+  video.querySelector('source')?.addEventListener('error',showError);
+});
 fetch(asset('media.json')).then(response=>{if(!response.ok)throw new Error('No media manifest');return response.json();}).then(manifest=>{
   if(!manifest.mauricio)return;
   const section=document.querySelector('#mauricio-session');

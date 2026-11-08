@@ -9,6 +9,7 @@ output.mkdir(parents=True, exist_ok=True)
 sessions = [
     ('hellen', 'evaluacion-Hellen-a-Jose'),
     ('mauricio', 'evaluacion-Mauricio-a-Jair'),
+    ('rimsky', 'evaluacion-rimsky-a-rony'),
 ]
 manifest = {}
 for key, name in sessions:
