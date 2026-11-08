@@ -46,7 +46,7 @@ Referencias: [Vite y GitHub Pages](https://vite.dev/guide/static-deploy.html#git
 - **Investigar:** síntesis de Interactive Reasoning (Luis), PromptChainer (Hellen), Beyond Code Generation (Mauricio) y ThinkFlow (Rimsky), según los análisis aportados por el equipo. No se atribuye al sitio una revisión independiente de los artículos originales.
 - **Diseñar:** fotografía presencial rotada visualmente 90° a la izquierda, captura y enlace del Miro, y secuencia de integración de propuestas.
 - **Prototipo:** galería de demostración con la pantalla de entrada, resumen de errores, variantes, evaluación de jugadas, cadena de análisis y Aprende. La pestaña **Bosquejos** conserva la propuesta inicial y el dibujo de tres paneles. Es una presentación del proyecto; el motor y la API están en el repositorio IAjedrez.
-- **Evaluación:** registro Hellen–José y espacio pendiente Mauricio–Jair. No se inventan resultados de usabilidad.
+- **Evaluación:** registros Hellen–José, Mauricio–Jair y Rimsky–Roni. No se inventan resultados de usabilidad.
 - **Documentación:** los 12 documentos extraídos de los dos ZIP originales, con filtro y búsqueda por título o integrante. Las dos versiones de Exposición se conservan por separado.
 
 ### Organización de recursos
@@ -71,7 +71,7 @@ sources/          # Archivos locales excluidos de Git y del sitio
 
 Las imágenes se conservan una sola vez en su carpeta de uso. La foto de ideación mantiene sus bytes originales; la rotación se aplica en CSS. Las imágenes históricas de `design/archivo/` no se copian a `dist/`. Para reemplazar una captura, actualizar su archivo en `public/assets/`; para añadir una vista, registrar su ruta relativa a esa carpeta en `views` de `src/main.js`. Los recursos del HTML usan `%BASE_URL%` para respetar la subruta de GitHub Pages.
 
-## Incorporar la segunda evaluación
+## Preparar los videos de evaluación
 
 Los originales MKV y ZIP están excluidos de Git; los MP4 de `public/videos/` sí se incluyen. En este equipo la entrevista Hellen–José ya está preparada como MP4 H.264/AAC, sin recodificar los flujos originales. Para reconstruirla o incorporar la otra entrevista, se necesita Python 3 y FFmpeg disponible en PATH.
 
@@ -79,9 +79,9 @@ Los originales MKV y ZIP están excluidos de Git; los MP4 de `public/videos/` s�
 2. Ejecutar `npm.cmd run prepare:media`.
 3. Reiniciar la vista previa o recargar la página. Para producción, ejecutar `npm.cmd run build`.
 
-El script prepara los MP4 y actualiza `public/media.json`. La sección pendiente se convierte automáticamente en un reproductor cuando el manifiesto indica un video disponible. También se pueden copiar MP4 compatibles directamente a `public/videos/` con esos mismos nombres base y ejecutar el script. Incluir el MP4 y `public/media.json` en el siguiente commit para que GitHub Actions también disponga del video. Cada MP4 debe pesar menos de 100 MiB; la compilación comprueba el tamaño y la existencia de los videos declarados.
+El script prepara los MP4 y actualiza `public/media.json`. Las tres entrevistas ya tienen reproductor en `index.html`; sustituir un MP4 con el mismo nombre actualiza su contenido. También se pueden copiar MP4 compatibles directamente a `public/videos/` con esos mismos nombres base y ejecutar el script. Incluir el MP4 y `public/media.json` en el siguiente commit para que GitHub Actions también disponga del video. Cada MP4 debe pesar menos de 100 MiB; la compilación comprueba el tamaño y la existencia de los videos declarados. La conversión limita la tasa de video y audio para reducir el tamaño; comprobar el resultado si se incorporan grabaciones más largas.
 
-La entrevista disponible dura 9 min 30 s. No se incluyen subtítulos ni transcripción porque no se proporcionaron; no se generaron conclusiones a partir de su contenido.
+La entrevista Hellen–José dura 9 min 30 s y Mauricio–Jair, 14 min 37 s. No se incluyen subtítulos ni transcripción porque no se proporcionaron; no se generaron conclusiones a partir de su contenido.
 
 ## Interacciones y accesibilidad
 

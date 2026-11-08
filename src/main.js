@@ -69,17 +69,17 @@ dialog.addEventListener('close',()=>{document.body.style.overflow='';dialogTrigg
 
 const views={
   analisis:[
-    {image:'interfaz/resumen-errores.png',label:'Resumen de errores',caption:'Resumen de errores · Jugadas prioritarias, explicaciones y alternativas junto al tablero.',alt:'Demostración de IAjedrez con resumen de errores y jugadas sugeridas'},
     {image:'interfaz/pantalla-entrada.png',label:'Pantalla de entrada',caption:'Pantalla de entrada · Historial de consultas y espacio para introducir una partida en PGN.',alt:'Demostración de la pantalla de entrada con historial y campo de partida PGN'},
+    {image:'interfaz/resumen-errores.png',label:'Resumen de errores',caption:'Resumen de errores · Jugadas prioritarias, explicaciones y alternativas junto al tablero.',alt:'Demostración de IAjedrez con resumen de errores y jugadas sugeridas'},
     {image:'interfaz/explorar-variantes.png',label:'Explorar variantes',caption:'Explorar variantes · Comparar una alternativa sin perder la partida original.',alt:'Demostración de una variante con flechas sobre el tablero y la jugada seleccionada'},
     {image:'interfaz/evaluacion-jugadas.png',label:'Evaluación de jugadas',caption:'Evaluación de jugadas · Relacionar la valoración y la alternativa del motor con una posición.',alt:'Demostración del panel de evaluación de jugadas junto al tablero'},
     {image:'interfaz/cadena-analisis.png',label:'Cadena de análisis',caption:'Cadena de análisis · Observar la posición, contrastar la jugada, comparar alternativas y probar.',alt:'Demostración de la cadena de análisis organizada en cuatro pasos'},
+    {image:'interfaz/aprende.png',label:'Aprende',caption:'Aprende · Temas de la partida, recursos de estudio y acceso a la práctica desde una posición.',alt:'Demostración del modo Aprende con temas de apertura y táctica vinculados a la partida'},
   ],
   bosquejos:[
     {image:'bosquejos/pantalla-entrada.png',label:'Bosquejo inicial',caption:'Bosquejo inicial · Propuesta previa de la pantalla de entrada, no una captura de la interfaz actual.',alt:'Bosquejo inicial de la pantalla de entrada de IAjedrez'},
     {image:'bosquejos/distribucion-tres-paneles.png',label:'Bosquejo de tres paneles',caption:'Bosquejo de tres paneles · Jugadas a la izquierda, tablero al centro y explicación y consultas a la derecha.',alt:'Bosquejo dibujado a mano de la distribución de jugadas, tablero y panel de IA'},
   ],
-  aprende:[{image:'interfaz/aprende.png',label:'Aprende',caption:'Aprende · Temas de la partida, recursos de estudio y acceso a la práctica desde una posición.',alt:'Demostración del modo Aprende con temas de apertura y táctica vinculados a la partida'}],
 };
 const tabs=[...document.querySelectorAll('[data-view]')];
 const galleryChoices=document.querySelector('#gallery-choices');
@@ -119,15 +119,3 @@ document.querySelectorAll('.evaluation video').forEach(video=>{
   video.addEventListener('error',showError);
   video.querySelector('source')?.addEventListener('error',showError);
 });
-fetch(asset('media.json')).then(response=>{if(!response.ok)throw new Error('No media manifest');return response.json();}).then(manifest=>{
-  if(!manifest.mauricio)return;
-  const section=document.querySelector('#mauricio-session');
-  const source=asset(manifest.mauricio);
-  section.classList.remove('pending');
-  section.querySelector('.status').classList.add('available');section.querySelector('.status').textContent='Registro disponible';
-  section.querySelector(':scope > p').textContent='Evaluación con usuarios · Segunda sesión';
-  const video=document.createElement('video');video.controls=true;video.playsInline=true;video.preload='metadata';video.src=source;video.setAttribute('aria-label','Entrevista de evaluación de Mauricio a Jair');
-  section.querySelector('.pending-media').replaceWith(video);
-  const link=document.createElement('a');link.href=source;link.download='';link.textContent='Descargar video ↓';
-  section.querySelector('.evaluation-bottom').replaceChildren(link);
-}).catch(()=>{/* Preserve the truthful, pending state if the optional manifest is unavailable. */});

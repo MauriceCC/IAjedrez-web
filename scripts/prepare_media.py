@@ -21,7 +21,8 @@ for key, name in sessions:
     if source.exists() and (not target.exists() or source.stat().st_mtime > target.stat().st_mtime):
         subprocess.run(['ffmpeg', '-y', '-hide_banner', '-loglevel', 'error', '-i', str(source),
                         '-c:v', 'libx264', '-preset', 'fast', '-crf', '23', '-pix_fmt', 'yuv420p',
-                        '-c:a', 'aac', '-movflags', '+faststart', str(target)], check=True)
+                        '-r', '30', '-maxrate', '750k', '-bufsize', '1500k',
+                        '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(target)], check=True)
     manifest[key] = f'videos/{name}.mp4' if target.exists() else None
-(ROOT / 'public' / 'media.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+(ROOT / 'public' / 'media.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 print('Estado de entrevistas:', json.dumps(manifest, ensure_ascii=False))
