@@ -45,17 +45,37 @@ Referencias: [Vite y GitHub Pages](https://vite.dev/guide/static-deploy.html#git
 - **Escuchar:** muestra, perfiles y hallazgos de las seis entrevistas iniciales. Las fuentes son el Documento Grupal (§ 2.2) y las cuatro presentaciones de needfinding.
 - **Investigar:** síntesis de Interactive Reasoning (Luis), PromptChainer (Hellen), Beyond Code Generation (Mauricio) y ThinkFlow (Rimsky), según los análisis aportados por el equipo. No se atribuye al sitio una revisión independiente de los artículos originales.
 - **Diseñar:** fotografía presencial rotada visualmente 90° a la izquierda, captura y enlace del Miro, y secuencia de integración de propuestas.
-- **Prototipo:** capturas reales de análisis, inicio y Aprende. Es una presentación del proyecto; el motor y la API están en el repositorio IAjedrez.
+- **Prototipo:** galería de demostración con la pantalla de entrada, resumen de errores, variantes, evaluación de jugadas, cadena de análisis y Aprende. La pestaña **Bosquejos** conserva la propuesta inicial y el dibujo de tres paneles. Es una presentación del proyecto; el motor y la API están en el repositorio IAjedrez.
 - **Evaluación:** registro Hellen–José y espacio pendiente Mauricio–Jair. No se inventan resultados de usabilidad.
 - **Documentación:** los 12 documentos extraídos de los dos ZIP originales, con filtro y búsqueda por título o integrante. Las dos versiones de Exposición se conservan por separado.
 
-`public/materiales/` conserva los DOCX, PPTX y PDF originales. `public/assets/` contiene las capturas y la foto original sin sobrescribirla. `design/` contiene el concepto visual generado y los criterios de implementación.
+### Organización de recursos
+
+```text
+public/
+  assets/
+    interfaz/     # Seis capturas actuales con nombres descriptivos
+    bosquejos/    # Propuesta de entrada y distribución de tres paneles
+    ideacion/     # Tablero Miro y fotografía presencial
+    evaluacion/   # Portadas de las entrevistas
+  materiales/     # DOCX, PPTX y PDF descargables, con sus nombres originales
+  videos/         # MP4 preparados para la web
+  media.json      # Disponibilidad de las entrevistas
+design/
+  concepto.png    # Referencia visual del sitio
+  archivo/        # Capturas históricas que no se publican
+sources/          # Archivos locales excluidos de Git y del sitio
+  archives/       # ZIP originales
+  videos/         # Grabaciones MKV originales
+```
+
+Las imágenes se conservan una sola vez en su carpeta de uso. La foto de ideación mantiene sus bytes originales; la rotación se aplica en CSS. Las imágenes históricas de `design/archivo/` no se copian a `dist/`. Para reemplazar una captura, actualizar su archivo en `public/assets/`; para añadir una vista, registrar su ruta relativa a esa carpeta en `views` de `src/main.js`. Los recursos del HTML usan `%BASE_URL%` para respetar la subruta de GitHub Pages.
 
 ## Incorporar la segunda evaluación
 
 Los originales MKV y ZIP están excluidos de Git; los MP4 de `public/videos/` sí se incluyen. En este equipo la entrevista Hellen–José ya está preparada como MP4 H.264/AAC, sin recodificar los flujos originales. Para reconstruirla o incorporar la otra entrevista, se necesita Python 3 y FFmpeg disponible en PATH.
 
-1. Colocar `evaluacion-Mauricio-a-Jair.mkv` en la raíz del proyecto (junto al MKV de Hellen).
+1. Colocar `evaluacion-Mauricio-a-Jair.mkv` en `sources/videos/` (crear la carpeta si no existe). También se admite la ubicación anterior en la raíz.
 2. Ejecutar `npm.cmd run prepare:media`.
 3. Reiniciar la vista previa o recargar la página. Para producción, ejecutar `npm.cmd run build`.
 

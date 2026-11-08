@@ -68,17 +68,37 @@ dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog
 dialog.addEventListener('close',()=>{document.body.style.overflow='';dialogTrigger?.focus();});
 
 const views={
-  analisis:{image:'interface.png',caption:'Análisis de partida · La jugada seleccionada conecta el tablero con su explicación.',alt:'Vista de análisis: jugadas, tablero y resumen de errores'},
-  inicio:{image:'IAjedrez_inicio.png',caption:'Inicio · Un punto de entrada para comenzar la revisión de una partida.',alt:'Captura de la pantalla de inicio de IAjedrez'},
-  aprende:{image:'IAjedrez_vista_aprende.png',caption:'Aprende · Probar alternativas, pedir una pista y volver a la partida.',alt:'Captura del modo Aprende con una actividad sobre el tablero'},
+  analisis:[
+    {image:'interfaz/resumen-errores.png',label:'Resumen de errores',caption:'Resumen de errores · Jugadas prioritarias, explicaciones y alternativas junto al tablero.',alt:'Demostración de IAjedrez con resumen de errores y jugadas sugeridas'},
+    {image:'interfaz/pantalla-entrada.png',label:'Pantalla de entrada',caption:'Pantalla de entrada · Historial de consultas y espacio para introducir una partida en PGN.',alt:'Demostración de la pantalla de entrada con historial y campo de partida PGN'},
+    {image:'interfaz/explorar-variantes.png',label:'Explorar variantes',caption:'Explorar variantes · Comparar una alternativa sin perder la partida original.',alt:'Demostración de una variante con flechas sobre el tablero y la jugada seleccionada'},
+    {image:'interfaz/evaluacion-jugadas.png',label:'Evaluación de jugadas',caption:'Evaluación de jugadas · Relacionar la valoración y la alternativa del motor con una posición.',alt:'Demostración del panel de evaluación de jugadas junto al tablero'},
+    {image:'interfaz/cadena-analisis.png',label:'Cadena de análisis',caption:'Cadena de análisis · Observar la posición, contrastar la jugada, comparar alternativas y probar.',alt:'Demostración de la cadena de análisis organizada en cuatro pasos'},
+  ],
+  bosquejos:[
+    {image:'bosquejos/pantalla-entrada.png',label:'Bosquejo inicial',caption:'Bosquejo inicial · Propuesta previa de la pantalla de entrada, no una captura de la interfaz actual.',alt:'Bosquejo inicial de la pantalla de entrada de IAjedrez'},
+    {image:'bosquejos/distribucion-tres-paneles.png',label:'Bosquejo de tres paneles',caption:'Bosquejo de tres paneles · Jugadas a la izquierda, tablero al centro y explicación y consultas a la derecha.',alt:'Bosquejo dibujado a mano de la distribución de jugadas, tablero y panel de IA'},
+  ],
+  aprende:[{image:'interfaz/aprende.png',label:'Aprende',caption:'Aprende · Temas de la partida, recursos de estudio y acceso a la práctica desde una posición.',alt:'Demostración del modo Aprende con temas de apertura y táctica vinculados a la partida'}],
 };
 const tabs=[...document.querySelectorAll('[data-view]')];
-function selectView(button){
-  const view=views[button.dataset.view];
-  tabs.forEach(tab=>{tab.setAttribute('aria-selected',String(tab===button));tab.tabIndex=tab===button?0:-1;});
+const galleryChoices=document.querySelector('#gallery-choices');
+function selectImage(view,index){
+  galleryChoices.querySelectorAll('button').forEach((choice,i)=>choice.setAttribute('aria-pressed',String(i===index)));
   const img=document.querySelector('#prototype-image');img.src=asset('assets/'+view.image);img.alt=view.alt;
   img.parentElement.dataset.image='assets/'+view.image;img.parentElement.dataset.caption=view.caption;
   document.querySelector('#prototype-caption').textContent=view.caption;
+}
+function selectView(button){
+  const images=views[button.dataset.view];
+  tabs.forEach(tab=>{tab.setAttribute('aria-selected',String(tab===button));tab.tabIndex=tab===button?0:-1;});
+  galleryChoices.replaceChildren(...images.map((view,index)=>{
+    const choice=document.createElement('button');choice.type='button';
+    choice.textContent=view.label;choice.setAttribute('aria-pressed',String(index===0));
+    choice.addEventListener('click',()=>selectImage(view,index));return choice;
+  }));
+  galleryChoices.hidden=images.length<2;
+  selectImage(images[0],0);
   document.querySelector('#prototype-panel').setAttribute('aria-labelledby',button.id);
 }
 tabs.forEach((button,index)=>{
@@ -88,6 +108,7 @@ tabs.forEach((button,index)=>{
     if(next!==undefined){event.preventDefault();tabs[next].focus();selectView(tabs[next]);}
   });
 });
+selectView(tabs[0]);
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{if(entry.isIntersecting){navigation.querySelectorAll('a').forEach(link=>{const selected=link.hash===`#${entry.target.id}`;link.classList.toggle('current',selected);if(selected)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});}});
 },{rootMargin:'-15% 0px -65% 0px',threshold:0});
